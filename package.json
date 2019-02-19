@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/unhommequidort/scavenger-app/issues"
   },
-  "homepage": "https://github.com/unhommequidort/scavenger-app#readme"
+  "homepage": "https://github.com/unhommequidort/scavenger-app#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "engines": {
+    "node": "11.9.0"
+  }
 }
