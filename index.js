@@ -4,6 +4,7 @@ const { Pool } = require("pg");
 const auth = require("./auth");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -14,6 +15,11 @@ app.set("port", process.env.PORT || 5000);
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(
+  cors({
+    credentials: true
+  })
+);
 
 app.use("/auth", auth);
 
