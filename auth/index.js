@@ -93,7 +93,9 @@ router.post("/login", (req, res) => {
       .then(result => {
         if (result.rowCount == 0) {
           return res.json({
-            message: "That user does not exist"
+            userId: null,
+            auth: false,
+            message: "User does not exist"
           });
         } else {
           // user exists
@@ -103,17 +105,21 @@ router.post("/login", (req, res) => {
           bcrypt.compare(req.body.password, user.hash_pass).then(match => {
             if (match) {
               // set the 'set-cookie' header
-              res.cookie("user_id", user.id, {
+              res.cookie("user_id", user.user_id, {
                 httpOnly: true,
                 secure: process.env.SSL,
                 signed: true
               });
               res.json({
-                message: "Logged in! 🔓"
+                userId: user.user_id,
+                auth: true,
+                message: "Logged in!"
               });
             } else {
               return res.json({
-                message: "Incorrect password"
+                userId: null,
+                auth: false,
+                message: "Invalid password"
               });
             }
           });
