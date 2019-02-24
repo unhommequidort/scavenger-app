@@ -58,11 +58,12 @@ router.post("/signup", async (req, res) => {
               const user = result.rows[0];
               // set the 'set-cookie' header
               res.cookie("user_id", user.user_id, {
-                httpOnly: true,
-                secure: process.env.SSL,
+                httpOnly: false,
+                secure: false,
+                // secure: process.env.SSL,
                 signed: true
               });
-              return res.json({
+              res.json({
                 userId: user.user_id,
                 auth: true,
                 message: "Signed up and logged in!"
@@ -116,8 +117,8 @@ router.post("/login", (req, res) => {
             if (match) {
               // set the 'set-cookie' header
               res.cookie("user_id", user.user_id, {
-                httpOnly: true,
-                secure: process.env.SSL,
+                httpOnly: false,
+                secure: false,
                 signed: true
               });
               res.json({

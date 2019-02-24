@@ -26,5 +26,6 @@
   },
   "engines": {
     "node": "11.9.0"
-  }
+  },
+  "devDependencies": {}
 }

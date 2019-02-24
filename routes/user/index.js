@@ -8,13 +8,18 @@ const pool = new Pool({
   ssl: process.env.SSL === "false" ? false : true
 });
 
-router.get("/:id", (req, res) => {
+const authMiddleware = require("../../auth/middleware");
+
+router.get("/:id", authMiddleware.allowAccess, (req, res) => {
   const id = req.params.id;
 
   pool
-    .query("SELECT * FROM users WHERE user_id = $1", [id])
+    .query(
+      "SELECT user_id, email, first_name, last_name, avatar FROM users WHERE user_id = $1",
+      [id]
+    )
     .then(result => {
-      console.log(result);
+      res.json({ user: result.rows[0] });
     })
     .catch(error => {
       if (error) {

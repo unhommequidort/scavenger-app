@@ -1,5 +1,5 @@
-var express = require("express");
-var app = express();
+const express = require("express");
+const app = express();
 const { Pool } = require("pg");
 const auth = require("./auth");
 const userRoute = require("./routes/user");
@@ -12,10 +12,12 @@ const pool = new Pool({
   ssl: process.env.SSL === "false" ? false : true
 });
 
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
 app.set("port", process.env.PORT || 5000);
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
-app.use(cookieParser(process.env.COOKIE_SECRET));
+
 app.use(
   cors({
     credentials: true
