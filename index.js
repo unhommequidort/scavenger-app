@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 const { Pool } = require("pg");
 const auth = require("./auth");
+const userRoute = require("./routes/user");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -22,6 +23,10 @@ app.use(
 );
 
 app.use("/auth", auth);
+
+const authMiddleware = require("./auth/middleware");
+
+app.use("/user", authMiddleware.ensureLoggedIn, userRoute);
 
 app.get("/", function(request, response) {
   response.send("Hello World!");

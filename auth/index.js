@@ -54,11 +54,21 @@ router.post("/signup", async (req, res) => {
             if (err) {
               return res.json({ err: err.stack });
             } else {
-              return res.json({ results: result.rows[0] });
+              //return res.json({ results: result.rows[0] });
+              const user = result.rows[0];
+              // set the 'set-cookie' header
+              res.cookie("user_id", user.user_id, {
+                httpOnly: true,
+                secure: process.env.SSL,
+                signed: true
+              });
+              return res.json({
+                userId: user.user_id,
+                auth: true,
+                message: "Signed up and logged in!"
+              });
             }
           });
-
-          // redirect
         });
       } else {
         // User with that email already exists
